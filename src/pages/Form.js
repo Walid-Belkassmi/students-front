@@ -1,35 +1,50 @@
-import { Navigate } from "react-router-dom";
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const Form = () => {
-  const postStudent = async (e) => {
-    e.preventDefault();
+  const navigate = useNavigate()
+  const [name, setName] = useState('')
+  const [error, setError] = useState('')
 
-    // dire a fetch quelle methode j'utilise: POST
-    // dire a fetch quel est le type des données que je lui passe: JSON
-    // dire a fetch quelles données je lui passe
+  const handleNameChange = e => {
+    setName(e.target.value)
+  }
 
-    const student = {
-      name: e.target.firstChild.value,
-    };
+  const handleSubmit = async e => {
+    e.preventDefault()
 
-    const request = await fetch(`http://localhost:5000/students`, {
-      method: "POST",
+    const student = { name: name }
+
+    const request = await fetch('http://localhost:5000/students', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify(student),
-    });
+      body: JSON.stringify(student)
+    })
 
-    const response = await request.json();
-  };
+    const response = await request.json()
 
+    if (request.status === 201) {
+      navigate(`/success/${response.name}`)
+    } else {
+      setError(response)
+    }
+  }
+
+ 
   return (
     <>
-      <h1>Form</h1>
-      <form onSubmit={postStudent}>
-        <input type="text" />
-        <button type="submit">Create student</button>
+      <form onSubmit={handleSubmit}>
+        <input
+          placeholder='name'
+          type='text'
+          value={name}
+          onChange={handleNameChange}
+        />
+        <button type='submit'>Create student</button>
       </form>
+      {error && <p>{error}</p>}
     </>
   );
 };

@@ -14,14 +14,14 @@ const Home = () => {
 
     setStudents(response);
   };
-
+ 
   return (
     <>
       <h1>Home</h1>
       <ul>
         {students.map((student) => (
           <li>
-            <Link to={`/${student.name}`}>{student.name}</Link>
+            <Link to={`/success/${student.name}`}>{student.name}</Link>
           </li>
         ))}
       </ul>

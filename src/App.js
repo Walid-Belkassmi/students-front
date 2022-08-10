@@ -6,7 +6,6 @@ import Success from "./pages/Success";
 const App = () => {
   return (
     <BrowserRouter>
-      <h1>Hello</h1>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/form" element={<Form />} />
@@ -15,5 +14,5 @@ const App = () => {
     </BrowserRouter>
   );
 };
-
+ 
 export default App;
